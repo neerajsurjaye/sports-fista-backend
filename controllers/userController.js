@@ -119,3 +119,74 @@ exports.isAuth = (req, res, next) => {
         next()
     })
 }
+
+
+exports.makeOrg = async (req, res) => {
+    let id = req.params.id
+
+    if (!id) {
+        res.json({
+            err: "No id"
+        })
+        return;
+    }
+
+    let currUser = null;
+    try {
+        currUser = await user.findByIdAndUpdate(id, { isOrgnization: true });
+    }
+    catch (e) {
+        // console.log("Err", e)
+        res.json({
+            err: "Wrong id"
+        })
+        return;
+    }
+
+    if (!currUser) {
+        res.json({
+            err: "No user found"
+        })
+        return;
+    }
+
+    res.json({
+        success: currUser
+    });
+
+}
+
+exports.makeUser = async (req, res) => {
+    let id = req.params.id
+
+    if (!id) {
+        res.json({
+            err: "No id"
+        })
+        return;
+    }
+
+    let currUser = null;
+    try {
+        currUser = await user.findByIdAndUpdate(id, { isOrgnization: false });
+    }
+    catch (e) {
+        // console.log("Err", e)
+        res.json({
+            err: "Wrong id"
+        })
+        return;
+    }
+
+    if (!currUser) {
+        res.json({
+            err: "No user found"
+        })
+        return;
+    }
+
+    res.json({
+        success: currUser
+    });
+
+}

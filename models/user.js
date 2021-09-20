@@ -4,7 +4,8 @@ let Schema = mongoose.Schema
 let User = new Schema({
     username: String,
     password: String,
-    isOrgnization: { type: Boolean, default: false }
+    isOrgnization: { type: Boolean, default: false },
+    isAdmin: { type: Boolean, default: false },
     //enlisted in events
 })
 
