@@ -2,11 +2,31 @@ let event = require('../models/event')
 
 exports.getEvents = async (req, res) => {
 
-    let currEvents = await event.find().populate('user', 'username')
+    let page = req.params.page;
 
-    // console.log(currEvents); 
+    if (page <= 0) {
+        res.json({
+            err: "bad value"
+        })
+        return
+    }
 
-    res.json(currEvents)
+    event.paginate({}, {
+        page: page,
+        limit: 10,
+        populate: { path: 'user', select: 'username' }
+    }, (err, data) => {
+
+        if (err) {
+            res.json({ err: err })
+            retrun
+        }
+
+
+        res.json({ success: data })
+
+    })
+
 }
 
 exports.isOrg = (req, res, next) => {
@@ -22,8 +42,19 @@ exports.isOrg = (req, res, next) => {
     })
 }
 
-exports.getEventDetails = (req, res) => {
-    res.send("event : " + req.params.eventid)
+exports.getEventDetails = async (req, res) => {
+    let eventId = req.params.eventId;
+
+    let currEvent = event.findOne({ _id: eventId })
+    currEvent.populate({ path: "user", select: "_id username" })
+        .populate({ path: "comments" })
+
+    currEvent = await currEvent
+
+    res.json({
+        "success": currEvent
+    })
+
 }
 
 exports.createEvent = async (req, res) => {
