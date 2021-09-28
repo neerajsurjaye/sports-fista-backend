@@ -2,6 +2,7 @@
 let express = require('express')
 let app = express()
 
+let cors = require('cors')
 
 let mongoose = require('mongoose')
 
@@ -9,7 +10,7 @@ let eventRoute = require('./routes/eventRoute')
 let userRoute = require('./routes/userRoute')
 let commentRoute = require('./routes/commentRoute')
 
-
+app.use(cors())
 app.use(express.json())
 
 //database connection
