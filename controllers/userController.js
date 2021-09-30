@@ -12,6 +12,7 @@ exports.signup = async (req, res) => {
     let username = req.body.username
     let password = req.body.password
 
+    console.log(req.body)
 
     // checks if user exists
     let tempUser = await user.findOne({ username: username });
@@ -49,6 +50,7 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
     let username = req.body.username
     let password = req.body.password
+    console.log(req.body);
 
     //checks if user exists
     let currUser = await user.findOne({ username: username })
