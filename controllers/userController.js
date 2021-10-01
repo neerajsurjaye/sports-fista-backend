@@ -135,7 +135,7 @@ exports.makeOrg = async (req, res) => {
 
     let currUser = null;
     try {
-        currUser = await user.findByIdAndUpdate(id, { isOrgnization: true });
+        currUser = await user.findOneAndUpdate({ username: id }, { isOrgnization: true });
     }
     catch (e) {
         // console.log("Err", e)
@@ -170,7 +170,7 @@ exports.makeUser = async (req, res) => {
 
     let currUser = null;
     try {
-        currUser = await user.findByIdAndUpdate(id, { isOrgnization: false });
+        currUser = await user.findOneAndUpdate({ username: id }, { isOrgnization: false });
     }
     catch (e) {
         // console.log("Err", e)
