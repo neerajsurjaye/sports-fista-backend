@@ -12,9 +12,11 @@ exports.getEvents = async (req, res) => {
     }
 
     event.paginate({}, {
+        sort : {date : -1},
         page: page,
         limit: 10,
-        populate: { path: 'user', select: 'username' }
+        populate: { path: 'user', select: 'username' },
+        select : "-about -comments"
     }, (err, data) => {
 
         if (err) {
@@ -47,7 +49,11 @@ exports.getEventDetails = async (req, res) => {
 
     let currEvent = event.findOne({ _id: eventId })
     currEvent.populate({ path: "user", select: "_id username" })
-        .populate({ path: "comments" })
+        .populate({ 
+            path: "comments",
+            sort : {date : -1},
+            populate : {path : 'userid' , select : 'username'} 
+        })
 
     currEvent = await currEvent
 
@@ -67,6 +73,7 @@ exports.createEvent = async (req, res) => {
     let newEvent = new event({
         title: currEvent.title,
         desc: currEvent.desc,
+        about : currEvent.about,
         user: user._id
     })
 

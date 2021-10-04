@@ -5,8 +5,10 @@ let Schema = mongoose.Schema
 let event = new Schema({
     title: String,
     desc: String,
+    about : String,
     user: { type: Schema.Types.ObjectId, ref: 'user' },
-    comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }]
+    comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }],
+    date: { type: Date, default: Date.now }
 })
 
 event.plugin(mongoosePaginate)

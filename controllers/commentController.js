@@ -3,10 +3,11 @@ const event = require("../models/event")
 
 exports.addComment = async (req, res) => {
 
-    let eventId = req.params.eventId
+    let eventId = req.body.event
     let currUser = req.user
     let body = req.body
     console.log(body);
+    console.log("Comment Controller : " , eventId , currUser)
 
     let newComment = new comment({
         userid: currUser._id,
