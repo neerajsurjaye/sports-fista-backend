@@ -5,7 +5,7 @@ const user = require('../models/user')
 
 exports.getCurrentUser = (req, res) => {
     //user added at authentication
-    res.json(req.user)
+    res.json({success : req.user})
 }
 
 exports.signup = async (req, res) => {
