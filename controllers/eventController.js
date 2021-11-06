@@ -1,5 +1,6 @@
 let event = require('../models/event')
 
+
 exports.getEvents = async (req, res) => {
 
     let page = req.params.page;
@@ -12,11 +13,11 @@ exports.getEvents = async (req, res) => {
     }
 
     event.paginate({}, {
-        sort : {date : -1},
+        sort: { date: -1 },
         page: page,
         limit: 10,
         populate: { path: 'user', select: 'username' },
-        select : "-about -comments"
+        select: "-about -comments"
     }, (err, data) => {
 
         if (err) {
@@ -49,10 +50,10 @@ exports.getEventDetails = async (req, res) => {
 
     let currEvent = event.findOne({ _id: eventId })
     currEvent.populate({ path: "user", select: "_id username" })
-        .populate({ 
+        .populate({
             path: "comments",
-            sort : {date : -1},
-            populate : {path : 'userid' , select : 'username'} 
+            sort: { date: -1 },
+            populate: { path: 'userid', select: 'username' }
         })
 
     currEvent = await currEvent
@@ -64,20 +65,27 @@ exports.getEventDetails = async (req, res) => {
 }
 
 exports.createEvent = async (req, res) => {
+    //make seprate upload image
     let currEvent = req.body
     let user = req.user
 
-    console.log(currEvent);
-    console.log(user)
+    // console.log('req body', req.body);
+
 
     let newEvent = new event({
         title: currEvent.title,
         desc: currEvent.desc,
-        about : currEvent.about,
-        user: user._id
+        about: currEvent.about,
+        user: user._id,
+        images: currEvent.images
     })
 
     let curr = await newEvent.save()
 
     res.json(curr)
+
+}
+
+exports.uploadEventImage = (req, res) => {
+    res.json({ success: req.file.filename })
 }
