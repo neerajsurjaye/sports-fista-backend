@@ -15,7 +15,7 @@ exports.getEvents = async (req, res) => {
     event.paginate({}, {
         sort: { date: -1 },
         page: page,
-        limit: 10,
+        limit: 9,
         populate: { path: 'user', select: 'username' },
         select: "-about -comments"
     }, (err, data) => {
