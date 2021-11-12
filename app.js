@@ -31,9 +31,7 @@ app.use('/users', userRoute)
 //Comments Route
 app.use('/comment', commentRoute)
 
-app.get('/', (req, res) => {
-    res.json({ data: "data" })
-})
+app.use('/', express.static(__dirname + '/frontend'))
 
 //listening on
 let PORT = process.env.PORT || 8000
